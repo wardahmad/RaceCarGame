@@ -6,7 +6,7 @@
     background-color: green;
     overflow: hidden;
 }
-/* //// */
+
 .dashboard{
     background-color: black;
     color: white;
@@ -34,7 +34,7 @@
     position: absolute;
     height: 50px;
     width: 250px;
-    height: 50px;
+    height: 55px;
     top: 0;
     left: 200px;
     text-align: center;
