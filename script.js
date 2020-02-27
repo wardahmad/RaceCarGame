@@ -35,20 +35,31 @@ function startGame() {
     lives: 3,
     gameScore: 0,
     carstoPass: 10,
-    score: 0
+    score: 0,
+    roadwidth: 250
   };
+  startBoard();
+}
+
+function startBoard(){
+  for (let x = 0; x < 13; x++){
+    let div = document.createElement('div');
+    div.setAttribute('class','road');
+    div.style.top = (x*50)+'px';
+    div.style.width = player.roadwidth + 'px';
+    container.appendChild(div);
+  }
 }
 
 function pressKeyOn() {}
 
 function pressKeyOff() {}
 
-function updateDash(){
-    console.log(player)
-    scoreDash.innerHTML = player.score;
-    lifeDash.innerHTML = player.lives;
-    speedDash.innerHTML = player.speed;
-
+function updateDash() {
+  console.log(player);
+  scoreDash.innerHTML = player.score;
+  lifeDash.innerHTML = player.lives;
+  speedDash.innerHTML = player.speed;
 }
 
 function playGame() {
