@@ -21,7 +21,7 @@ let keys = {
 };
 
 function startGame() {
-  console.log(gamePlay);
+  //console.log(gamePlay);
   btnStart.style.display = "none";
   var div = document.createElement("div");
   div.setAttribute("class", "playerCar");
@@ -46,7 +46,7 @@ function startBoard() {
   for (let x = 0; x < 13; x++) {
     let div = document.createElement("div");
     div.setAttribute("class", "road");
-    div.style.top = x * 50 + "px";
+    div.style.top = (x * 50) + "px";
     div.style.width = player.roadwidth + "px";
     container.appendChild(div);
   }
@@ -54,13 +54,13 @@ function startBoard() {
 
 function pressKeyOn(event) {
   event.preventDefault();
-  console.log(keys);
+  //console.log(keys);
   keys[event.key] = true;
 }
 
 function pressKeyOff(event) {
   event.preventDefault();
-  console.log(keys);
+  //console.log(keys);
   keys[event.key] = false;
   //console.log(keys)
 }
@@ -74,16 +74,16 @@ function updateDash() {
 
 function moveRoad() {
   let tempRoad = document.querySelectorAll(".road");
-  console.log(tempRoad);
+  //console.log(tempRoad);
   let previousRoad = tempRoad[0].offsetLeft;
-  let previousWidth = tempRoad[0].width;
-  const pSpeed = player.speed;
+  let previousWidth = tempRoad[0].offsetWidth;
+  const pSpeed = Math.floor(player.speed);
   for (let x = 0; x < tempRoad.length; x++) {
     let num = tempRoad[x].offsetTop + pSpeed;
     if (num > 600) {
       num = num - 650;
       let mover = previousRoad + (Math.floor(Math.random() * 6) - 3);
-      let roadWidth = Math.floor(Math.random() * 11) - 5 + previousWidth;
+      let roadWidth = (Math.floor(Math.random() * 11) - 5) + previousWidth;
       if (roadWidth < 200) roadWidth = 200;
       if (roadWidth > 400) roadWidth = 400;
       if (mover < 100) mover = 100;
@@ -95,6 +95,10 @@ function moveRoad() {
     }
     tempRoad[x].style.top = num + "px";
   }
+  return {
+    'width': previousWidth,
+    'left': previousRoad
+  };
 }
 
 function playGame() {
@@ -103,25 +107,33 @@ function playGame() {
     updateDash();
 
     ///Movement
-    moveRoad();
+    //moveRoad();
+    let roadPara = moveRoad();
+    //console.log(roadPara);
     if (keys.ArrowUp) {
       //console.log(player.ele.x);
       if (player.ele.y > 400) player.ele.y -= 1;
-      player.speed = player.speed < 20 ? player.speed + 0.05 : 20;
+      player.speed = player.speed < 20 ? (player.speed + 0.05) : 20;
     }
     if (keys.ArrowDown) {
       if (player.ele.y < 500) {
         player.ele.y += 1;
       }
-      player.speed = player.speed > 0 ? player.speed - 0.2 : 0;
+      player.speed = player.speed > 0 ? (player.speed - 0.2) : 0;
     }
     if (keys.ArrowRight) {
-      player.ele.x += player.speed / 4;
+      player.ele.x += (player.speed / 4);
     }
     if (keys.ArrowLeft) {
-      player.ele.x -= player.speed / 4;
+      player.ele.x -= (player.speed / 4);
     }
 
+    //check if on road
+    if ((player.ele.x + 40) < roadPara.left || (player.ele.x > (roadPara.left + roadPara.width))){
+      if (player.ele.y < 500) {player.ele.y += +1;}
+      player.speed = player.speed > 0 ? (player.speed-0.2): 1;
+      console.log('OFF Road')
+    }
     ///move car
     player.ele.style.top = player.ele.y + "px";
     player.ele.style.left = player.ele.x + "px";
