@@ -138,6 +138,16 @@ function moveRoad() {
   };
 }
 
+function isCollide(a,b){
+  let aRect = a.getBoundingClientRect();
+  let bRect = b.getBoundingClientRect();
+  //console.log(aRect);
+  return !(
+    (aRect.bottom < bRect.top) || (aRect.top > bRect.bottom) || 
+    (aRect.right < bRect.left) || (aRect.left > bRect.right)
+  )
+}
+
 function moveBadGuys(){
   let tempBaddy = document.querySelectorAll('.baddy');
   for (let i = 0; i < tempBaddy.length; i++){
@@ -147,9 +157,10 @@ function moveBadGuys(){
       makeBad(tempBaddy[i]);
     } else {
       tempBaddy[i].style.top = y + 'px';
+      let hitCar = isCollide(tempBaddy[i],player.ele);
+      console.log(hitCar);
     }
   }
-
 }
 
 function playGame() {
