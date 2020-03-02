@@ -35,7 +35,7 @@ function startGame() {
     speed: 0,
     lives: 3,
     gameScore: 0,
-    carstoPass: 50,
+    carstoPass: 20,
     score: 0,
     roadwidth: 250,
     gameEndCounter: 0
